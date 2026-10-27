@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>PoC Buffet Express</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 500px; margin: auto; }
+    pre { background: #111; color: #0f0; padding: 15px; border-radius: 5px; }
+    button { background: #0d6efd; color: white; border: none; padding: 10px 15px; font-weight: bold; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>🧪 Prueba de Concepto — Buffet Express</h2>
+  <p>Presioná el botón para probar la recepción del JSON y la respuesta de la API REST:</p>
+  
+  <button onclick="probarPoC()">Enviar Pedido de Prueba (POST)</button>
+
+  <h3>Respuesta del Servidor (JSON):</h3>
+  <pre id="log">Esperando prueba...</pre>
+
+  <script>
+    async function probarPoC() {
+      const payload = {
+        "alumno": "Jeffrey Perón",
+        "items": [{ "producto": "Sánguche de Miga", "cantidad": 2 }]
+      };
+
+      document.getElementById('log').textContent = "Enviando...";
+
+      try {
+        const res = await fetch('/api/pedidos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        document.getElementById('log').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById('log').textContent = "Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
